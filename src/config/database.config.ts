@@ -2,7 +2,19 @@ import { registerAs } from '@nestjs/config';
 
 const parseBoolean = (value: string | undefined): boolean => value === 'true';
 
-export default registerAs('database', () => ({
+export interface DatabaseConfig {
+  url?: string;
+  host: string;
+  port: number;
+  username: string;
+  password: string;
+  database: string;
+  ssl: boolean;
+  synchronize: boolean;
+  logging: boolean;
+}
+
+export const getDatabaseConfig = (): DatabaseConfig => ({
   url: process.env.DATABASE_URL,
   host: process.env.POSTGRES_HOST ?? 'localhost',
   port: Number(process.env.POSTGRES_PORT ?? 5432),
@@ -13,4 +25,6 @@ export default registerAs('database', () => ({
     Boolean(process.env.DATABASE_URL) || parseBoolean(process.env.POSTGRES_SSL),
   synchronize: parseBoolean(process.env.POSTGRES_SYNCHRONIZE),
   logging: parseBoolean(process.env.POSTGRES_LOGGING),
-}));
+});
+
+export default registerAs('database', getDatabaseConfig);

@@ -8,6 +8,8 @@ import {
   validateEnvironment,
 } from './config/env.config';
 import { DatabaseModule } from './database/database.module';
+import { RolesModule } from './app/roles/modules/roles.module';
+import { UsersModule } from './app/users/modules/users.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { DatabaseModule } from './database/database.module';
       validate: validateEnvironment,
     }),
     DatabaseModule,
+    RolesModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
